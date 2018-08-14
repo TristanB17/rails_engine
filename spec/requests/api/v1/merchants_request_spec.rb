@@ -1,24 +1,26 @@
 require 'rails_helper'
 
 describe "Merchants API" do
+  before(:each) do
+    merchant1 = create(:merchant, id:1, name:'hello', created_at:DateTime.new(1234-01-01), updated_at:DateTime.new(1234-01-01))
+    merchant5 = create(:merchant, id:5, name:'hello', created_at:DateTime.new(1234-01-01), updated_at:DateTime.new(1234-01-01))
+    merchant2 = create(:merchant, id:2, name:'hello5', created_at:DateTime.new(1234-02-01), updated_at:DateTime.new(1234-02-01))
+    merchant3 = create(:merchant, id:3, name:'hello6', created_at:DateTime.new(1234-03-01), updated_at:DateTime.new(1234-03-01))
+    merchant4 = create(:merchant, id:4, name:'hello7', created_at:DateTime.new(1234-04-01), updated_at:DateTime.new(1234-07-01))
+    merchant6 = create(:merchant, id:6, name:'hello8', created_at:DateTime.new(1234-06-01), updated_at:DateTime.new(1234-07-01))
+  end
   context "GET /api/v1/merchants" do
     it "returns a list of merchants" do
-      Merchant.create(id:1, name:'hello', created_at:DateTime.new, updated_at:DateTime.new)
-      Merchant.create(id:2, name:'hello5', created_at:DateTime.new, updated_at:DateTime.new)
-      Merchant.create(id:3, name:'hello6', created_at:DateTime.new, updated_at:DateTime.new)
-      Merchant.create(id:4, name:'hello7', created_at:DateTime.new, updated_at:DateTime.new)
       get '/api/v1/merchants'
 
       expect(response).to be_successful
       merchants = JSON.parse(response.body, symbolize_names: true)
       merchant = merchants.first
-
-      expect(merchants.count).to eq(4)
+      expect(merchants.count).to eq(6)
       expect(merchant).to have_key(:id)
       expect(merchant).to have_key(:name)
     end
     it 'returns one merchant' do
-      Merchant.create(id:1, name:'hello', created_at:DateTime.new, updated_at:DateTime.new)
       get '/api/v1/merchants/1'
 
       expect(response).to be_successful
@@ -32,10 +34,6 @@ describe "Merchants API" do
   end
   context 'GET /api/v1/merchants/find?parameters' do
     it 'should find by the listed parameter' do
-      merchant1 = Merchant.create(id:1, name:'hello', created_at:DateTime.new(1234-01-01), updated_at:DateTime.new(1234-01-01))
-      merchant2 = Merchant.create(id:2, name:'hello5', created_at:DateTime.new(1234-02-01), updated_at:DateTime.new(1234-02-01))
-      merchant3 = Merchant.create(id:3, name:'hello6', created_at:DateTime.new(1234-03-01), updated_at:DateTime.new(1234-03-01))
-      merchant4 = Merchant.create(id:4, name:'hello7', created_at:DateTime.new(1234-04-01), updated_at:DateTime.new(1234-04-01))
       expectedtime = merchant2.created_at
       expectedtime2 = merchant4.updated_at
       get '/api/v1/merchants/find?name=hello'
@@ -75,12 +73,6 @@ describe "Merchants API" do
   end
   context 'GET /api/v1/merchants/find_all?parameters' do
     it 'should find all by the listed parameter' do
-      merchant1 = Merchant.create(id:1, name:'hello', created_at:DateTime.new(1234-01-01), updated_at:DateTime.new(1234-01-01))
-      merchant5 = Merchant.create(id:5, name:'hello', created_at:DateTime.new(1234-01-01), updated_at:DateTime.new(1234-01-01))
-      merchant2 = Merchant.create(id:2, name:'hello5', created_at:DateTime.new(1234-02-01), updated_at:DateTime.new(1234-02-01))
-      merchant3 = Merchant.create(id:3, name:'hello6', created_at:DateTime.new(1234-03-01), updated_at:DateTime.new(1234-03-01))
-      merchant4 = Merchant.create(id:4, name:'hello7', created_at:DateTime.new(1234-04-01), updated_at:DateTime.new(1234-07-01))
-      merchant6 = Merchant.create(id:6, name:'hello8', created_at:DateTime.new(1234-06-01), updated_at:DateTime.new(1234-07-01))
       expectedtime = merchant1.created_at
       expectedtime2 = merchant4.updated_at
       get '/api/v1/merchants/find_all?name=hello'
@@ -128,12 +120,6 @@ describe "Merchants API" do
   end
   context 'GET /api/v1/merchants/random' do
     it 'should find one random merchant' do
-      merchant1 = Merchant.create(id:1, name:'hello', created_at:DateTime.new(1234-01-01), updated_at:DateTime.new(1234-01-01))
-      merchant5 = Merchant.create(id:5, name:'hello', created_at:DateTime.new(1234-01-01), updated_at:DateTime.new(1234-01-01))
-      merchant2 = Merchant.create(id:2, name:'hello5', created_at:DateTime.new(1234-02-01), updated_at:DateTime.new(1234-02-01))
-      merchant3 = Merchant.create(id:3, name:'hello6', created_at:DateTime.new(1234-03-01), updated_at:DateTime.new(1234-03-01))
-      merchant4 = Merchant.create(id:4, name:'hello7', created_at:DateTime.new(1234-04-01), updated_at:DateTime.new(1234-07-01))
-      merchant6 = Merchant.create(id:6, name:'hello8', created_at:DateTime.new(1234-06-01), updated_at:DateTime.new(1234-07-01))
       get '/api/v1/merchants/random'
 
       expect(response).to be_successful
