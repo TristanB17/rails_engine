@@ -45,19 +45,53 @@ describe 'Invoices API' do
     invoice_2 = Invoice.create!(id: 2, merchant_id: 1, customer_id: 2, status: 'failure', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     invoice_3 = Invoice.create!(id: 3, merchant_id: 1, customer_id: 1, status: 'success', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
 
-    get '/api/v1/invoices/find?id=1'
+    get '/api/v1/invoices/search?customer_id=2'
 
     expect(response).to be_successful
 
     by_id = JSON.parse(response.body, symbolize_names: true)
 
-    expect(by_id[:merchant_id]).to eq(invoice_1.merchant_id)
-    expect(by_id[:id]).to eq(invoice_1.id)
-
-    get 'api/v1/invoices/find?customer_id=2'
+    expect(by_id[:merchant_id]).to eq(invoice_2.merchant_id)
+    expect(by_id[:id]).to eq(invoice_2.id)
 
     new_invoice = JSON.parse(response.body, symbolize_names: true)
 
     expect(new_invoice[:status]).to eq(invoice_2.status)
+  end
+  it 'finds all by a given parameter' do
+    Merchant.create!(id: 1, name: 'Bob', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    Customer.create!(id: 1, first_name: 'John', last_name: 'Carpenter', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    Customer.create!(id: 2, first_name: 'John', last_name: 'Carpenter', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    invoice_1 = Invoice.create!(id: 1, merchant_id: 1, customer_id: 1, status: 'success', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    invoice_2 = Invoice.create!(id: 2, merchant_id: 1, customer_id: 2, status: 'failure', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    invoice_3 = Invoice.create!(id: 3, merchant_id: 1, customer_id: 1, status: 'success', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+
+    get '/api/v1/invoices/search_all?customer_id=1'
+
+    expect(response).to be_successful
+
+    invoices = JSON.parse(response.body, symbolize_names: true)
+    invoice = invoices.first
+
+    expect(invoices.count).to eq(2)
+    expect(invoice[:id]).to eq(invoice_1.id)
+  end
+  it 'finds a random invoice' do
+    Merchant.create!(id: 1, name: 'Bob', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    Customer.create!(id: 1, first_name: 'John', last_name: 'Carpenter', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    Customer.create!(id: 2, first_name: 'John', last_name: 'Carpenter', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    invoice_1 = Invoice.create!(id: 1, merchant_id: 1, customer_id: 1, status: 'success', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    invoice_2 = Invoice.create!(id: 2, merchant_id: 1, customer_id: 2, status: 'failure', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    invoice_3 = Invoice.create!(id: 3, merchant_id: 1, customer_id: 1, status: 'success', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+
+    get '/api/v1/invoices/random'
+
+    expect(response).to be_successful
+
+    invoice = JSON.parse(response.body, symbolize_names: true)
+
+    expect(invoice).to have_key(:merchant_id)
+    expect(invoice).to have_key(:customer_id)
+    expect(invoice).to have_key(:status)
   end
 end
