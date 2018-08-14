@@ -19,6 +19,8 @@ describe "Merchants API" do
       expect(merchants.count).to eq(6)
       expect(merchant).to have_key(:id)
       expect(merchant).to have_key(:name)
+      expect(merchant).to_not have_key(:created_at)
+      expect(merchant).to_not have_key(:updated_at)
     end
     it 'returns one merchant' do
       get '/api/v1/merchants/1'
