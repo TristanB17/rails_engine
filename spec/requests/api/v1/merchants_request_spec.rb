@@ -19,6 +19,8 @@ describe "Merchants API" do
       expect(merchants.count).to eq(6)
       expect(merchant).to have_key(:id)
       expect(merchant).to have_key(:name)
+      expect(merchant).to_not have_key(:created_at)
+      expect(merchant).to_not have_key(:updated_at)
     end
     it 'returns one merchant' do
       get '/api/v1/merchants/1'
@@ -34,8 +36,8 @@ describe "Merchants API" do
   end
   context 'GET /api/v1/merchants/find?parameters' do
     it 'should find by the listed parameter' do
-      expectedtime = merchant2.created_at
-      expectedtime2 = merchant4.updated_at
+      expectedtime = Merchant.find(2).created_at
+      expectedtime2 = Merchant.find(4).updated_at
       get '/api/v1/merchants/find?name=hello'
 
       expect(response).to be_successful
@@ -73,8 +75,8 @@ describe "Merchants API" do
   end
   context 'GET /api/v1/merchants/find_all?parameters' do
     it 'should find all by the listed parameter' do
-      expectedtime = merchant1.created_at
-      expectedtime2 = merchant4.updated_at
+      expectedtime = Merchant.find(1).created_at
+      expectedtime2 = Merchant.find(4).updated_at
       get '/api/v1/merchants/find_all?name=hello'
 
       expect(response).to be_successful
