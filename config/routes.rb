@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :invoices do
-        resources :search, only: [:index]
-        resources :search_all, only: [:index]
+        resources :find, only: [:index]
+        resources :find_all, only: [:index]
         resources :random, only: [:index]
         get '/:id/transactions', to: 'transactions#index'
         get '/:id/invoice_items', to: 'invoice_items#index'
