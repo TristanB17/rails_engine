@@ -20,26 +20,14 @@ describe 'Analytics' do
     create(:invoice_item, id:3, item_id:1, invoice_id:3, quantity:3, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     create(:invoice_item, id:4, item_id:2, invoice_id:4, quantity:3, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
   end
-  context 'visiting /api/v1/merchants/most_revenue?quantity=x' do
-    it 'can return top x merchants ranked by total revenue' do
-      get '/api/v1/merchants/most_revenue?quantity=1'
-      merchants = JSON.parse(response.body, symbolize_names: true)
-      merchant = merchants.first
+  context 'visiting /api/v1/merchants/:id/revenue' do
+    it 'can return revenue for a single merchant based on successful transactions' do
+      get '/api/v1/merchants/1/revenue'
 
-      expect(merchants.count).to eq(1)
-      expect(merchant).to have_key(:name)
-      expect(merchant[:name]).to eq('Rob')
-    end
-  end
-  context 'visiting /api/v1/merchants/most_items?quantity=x' do
-    it 'can return top x merchants ranked by total number of items sold' do
-      get '/api/v1/merchants/most_items?quantity=1'
-      merchants = JSON.parse(response.body, symbolize_names: true)
-      merchant = merchants.first
+      expect(response).to be_successful
+      revenue = JSON.parse(response.body, symbolize_names: true)
 
-      expect(merchants.count).to eq(1)
-      expect(merchant).to have_key(:name)
-      expect(merchant[:name]).to eq('Rob')
+      expect(revenue).to eq('28.0')
     end
   end
 end
