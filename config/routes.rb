@@ -14,12 +14,14 @@ Rails.application.routes.draw do
       end
       resources :invoices, only: [:index, :show]
       namespace :merchants do
+        resources :most_items, only: [:index]
         resources :most_revenue, only: [:index]
         resources :random, only: [:index]
         resources :find_all, only: [:index]
         resources :find, only: [:index]
         get '/:id/invoices', to: 'invoices#index'
         get '/:id/customers', to: 'customers#index'
+        get '/:id/revenue', to: 'revenue#index'
       end
       resources :merchants, only: [:show, :index]
       namespace :items do
