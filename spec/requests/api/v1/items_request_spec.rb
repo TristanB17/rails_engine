@@ -12,6 +12,8 @@ describe 'Items API' do
     @invoice4 = create(:invoice, id: 4, merchant_id: 2, customer_id: 1, status: 'shipped', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @item1 = create(:item, id: 1, name:'newitem', description:'anitem', unit_price:5, merchant_id:1, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @item2 = create(:item, id: 2, name:'anothernewitem', description:'anitem', unit_price:5, merchant_id:1, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    @item3 = create(:item, id: 3, name:'bitem', description:'smitem', unit_price:5, merchant_id:1, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    @item4 = create(:item, id: 4, name:'Liberty Medical', description:'anitem', unit_price:5, merchant_id:1, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @ii1 = create(:invoice_item, id:1, item_id:1, invoice_id:1, quantity:3, unit_price:7, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @ii2 = create(:invoice_item, id:2, item_id:2, invoice_id:2, quantity:3, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @ii3 = create(:invoice_item, id:3, item_id:1, invoice_id:3, quantity:3, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
@@ -26,7 +28,7 @@ describe 'Items API' do
       items = JSON.parse(response.body, symbolize_names: true)
       item = items.first
 
-      expect(items.count).to eq(6)
+      expect(items.count).to eq(4)
       expect(item).to have_key(:id)
       expect(item).to have_key(:name)
       # expect(item).to_not have_key(:created_at)
@@ -41,7 +43,24 @@ describe 'Items API' do
       expect(item).to have_key(:id)
       expect(item).to have_key(:name)
       expect(item[:id]).to eq(1)
-      expect(item[:name]).to eq('hello')
+      expect(item[:name]).to eq(@item1.name)
+    end
+  end
+  context 'returns an item based on parameters' do
+    it 'returns one item by parameter' do
+      get '/api/v1/items/find?id=2'
+      by_id = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to be_successful
+      expect(by_id).to have_key(:id)
+      expect(by_id[:id]).to eq(@item2.id)
+
+      get '/api/v1/items/find?name=Liberty Medical'
+      by_name = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to be_successful
+      expect(by_name).to have_key(:name)
+      expect(by_name[:name]).to eq(@item4.name)
     end
   end
 end

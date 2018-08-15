@@ -22,6 +22,9 @@ Rails.application.routes.draw do
         get '/:id/customers', to: 'customers#index'
       end
       resources :merchants, only: [:show, :index]
+      namespace :items do
+        resources :find, only: [:index]
+      end
       resources :items, only: [:index, :show]
     end
   end
