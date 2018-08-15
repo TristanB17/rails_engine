@@ -27,7 +27,8 @@ describe 'Analytics' do
       expect(response).to be_successful
       revenue = JSON.parse(response.body, symbolize_names: true)
 
-      expect(revenue).to eq('28.0')
+      expect(revenue).to have_key(:revenue)
+      expect(revenue[:revenue]).to eq('28.0')
     end
   end
 end
