@@ -45,7 +45,7 @@ describe 'Invoices API' do
     invoice_2 = Invoice.create!(id: 2, merchant_id: 1, customer_id: 2, status: 'failure', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     invoice_3 = Invoice.create!(id: 3, merchant_id: 1, customer_id: 1, status: 'success', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
 
-    get '/api/v1/invoices/search?customer_id=2'
+    get '/api/v1/invoices/find?customer_id=2'
 
     expect(response).to be_successful
 
@@ -66,7 +66,7 @@ describe 'Invoices API' do
     invoice_2 = Invoice.create!(id: 2, merchant_id: 1, customer_id: 2, status: 'failure', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     invoice_3 = Invoice.create!(id: 3, merchant_id: 1, customer_id: 1, status: 'success', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
 
-    get '/api/v1/invoices/search_all?customer_id=1'
+    get '/api/v1/invoices/find_all?customer_id=1'
 
     expect(response).to be_successful
 
