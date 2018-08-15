@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       end
       resources :invoices, only: [:index, :show]
       namespace :merchants do
+        resources :most_revenue, only: [:index]
         resources :random, only: [:index]
         resources :find_all, only: [:index]
         resources :find, only: [:index]
