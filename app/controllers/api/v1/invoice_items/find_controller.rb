@@ -11,7 +11,7 @@ class Api::V1::InvoiceItems::FindController < ApplicationController
     elsif params['unit_price'].nil? == false
       render json: InvoiceItem.find_by(unit_price: params[:unit_price])
     elsif params['created_at'].nil? == false
-      render json: InvoiceItem.find_by(created_at: params([:created_at]))
+      render json: InvoiceItem.find_by(created_at: params[:created_at])
     else params['updated_at'].nil? == false
       render json: InvoiceItem.find_by(updated_at: params[:updated_at])
     end

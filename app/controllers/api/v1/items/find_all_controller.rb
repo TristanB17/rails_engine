@@ -11,7 +11,7 @@ class Api::V1::Items::FindAllController < ApplicationController
     elsif params['merchant_id'].nil? == false
       render json: Item.where(merchant_id: params[:merchant_id])
     elsif params['created_at'].nil? == false
-      render json: Item.where(created_at: params([:created_at]))
+      render json: Item.where(created_at: params[:created_at])
     else params['updated_at'].nil? == false
       render json: Item.where(updated_at: params[:updated_at])
     end
