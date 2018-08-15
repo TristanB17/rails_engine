@@ -30,6 +30,8 @@ Rails.application.routes.draw do
       resources :items, only: [:index, :show]
       namespace :invoice_items do
         resources :find, only: [:index]
+        resources :find_all, only: [:index]
+        resources :random, only: [:index]
       end
       resources :invoice_items, only: [:index, :show]
     end

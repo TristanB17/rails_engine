@@ -16,7 +16,7 @@ describe 'Invoice Items API' do
     @item4 = create(:item, id: 4, name:'Liberty Medical', description:'anitem', unit_price:5, merchant_id:1, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @ii1 = create(:invoice_item, id:1, item_id:1, invoice_id:1, quantity:4, unit_price:7, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @ii2 = create(:invoice_item, id:2, item_id:2, invoice_id:2, quantity:3, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
-    @ii3 = create(:invoice_item, id:3, item_id:1, invoice_id:3, quantity:2, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    @ii3 = create(:invoice_item, id:3, item_id:1, invoice_id:3, quantity:1, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @ii4 = create(:invoice_item, id:4, item_id:2, invoice_id:4, quantity:1, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
   end
   context "GET /api/v1/invoice_items" do
@@ -81,24 +81,24 @@ describe 'Invoice Items API' do
       expect(by_id).to have_key(:id)
       expect(by_id[:id]).to eq(@ii2.id)
 
-      get '/api/v1/invoice_items/find_all?name=binvoice_item'
-      by_names = JSON.parse(response.body, symbolize_names: true)
+      get '/api/v1/invoice_items/find_all?quantity=1'
+      by_quantity = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to be_successful
-      expect(by_names.count).to eq(2)
-      expect(by_names.first[:name]).to eq(@ii2.name)
+      expect(by_quantity.count).to eq(2)
+      expect(by_quantity.first[:quantity]).to eq(@ii4.quantity)
 
       get "/api/v1/invoice_items/find_all?unit_price=#{@ii2.unit_price}"
       by_prices = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to be_successful
-      expect(by_prices.count).to eq(4)
+      expect(by_prices.count).to eq(3)
       expect(by_prices.first[:unit_price]).to eq(@ii2.unit_price.to_s)
       expect(by_prices.last[:unit_price]).to eq(@ii2.unit_price.to_s)
     end
   end
   context 'GET /api/v1/items/random' do
-    xit 'should find one random merchant' do
+    it 'should find one random merchant' do
       get '/api/v1/items/random'
 
       expect(response).to be_successful
