@@ -12,5 +12,6 @@ describe Customer, type: :model do
   context 'relationships' do
     it {should have_many(:invoices)}
     it {should have_many(:merchants).through(:invoices)}
+    it {should have_many(:transactions).through(:invoices)}
   end
 end

@@ -32,8 +32,8 @@ describe 'Invoice Items API' do
       expect(invoice_item).to have_key(:id)
       expect(invoice_item).to have_key(:quantity)
       expect(invoice_item).to have_key(:unit_price)
-      # expect(item).to_not have_key(:created_at)
-      # expect(item).to_not have_key(:updated_at)
+      expect(invoice_item).to_not have_key(:created_at)
+      expect(invoice_item).to_not have_key(:updated_at)
     end
     it 'returns one item' do
       get '/api/v1/invoice_items/1'
