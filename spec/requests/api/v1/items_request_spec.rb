@@ -11,8 +11,8 @@ describe 'Items API' do
     @invoice3 = create(:invoice, id: 3, merchant_id: 1, customer_id: 1, status: 'shipped', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @invoice4 = create(:invoice, id: 4, merchant_id: 2, customer_id: 1, status: 'shipped', created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @item1 = create(:item, id: 1, name:'newitem', description:'anitem', unit_price:5, merchant_id:1, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
-    @item2 = create(:item, id: 2, name:'anothernewitem', description:'anitem', unit_price:5, merchant_id:1, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
-    @item3 = create(:item, id: 3, name:'bitem', description:'smitem', unit_price:5, merchant_id:1, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    @item2 = create(:item, id: 2, name:'bitem', description:'anitem', unit_price:5, merchant_id:1, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
+    @item3 = create(:item, id: 3, name:'bitem', description:'smitem', unit_price:5.00, merchant_id:1, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @item4 = create(:item, id: 4, name:'Liberty Medical', description:'anitem', unit_price:5, merchant_id:1, created_at: "2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @ii1 = create(:invoice_item, id:1, item_id:1, invoice_id:1, quantity:3, unit_price:7, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     @ii2 = create(:invoice_item, id:2, item_id:2, invoice_id:2, quantity:3, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
@@ -61,6 +61,48 @@ describe 'Items API' do
       expect(response).to be_successful
       expect(by_name).to have_key(:name)
       expect(by_name[:name]).to eq(@item4.name)
+
+      get "/api/v1/items/find?unit_price=#{@item3.unit_price}"
+      by_price = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to be_successful
+      expect(by_price).to have_key(:unit_price)
+      expect(by_price[:unit_price]).to eq(@item3.unit_price.to_s)
+    end
+    it 'returns all items by parameter' do
+      get '/api/v1/items/find_all?id=2'
+      items_id = JSON.parse(response.body, symbolize_names: true)
+      by_id = items_id.first
+
+      expect(response).to be_successful
+      expect(by_id).to have_key(:id)
+      expect(by_id[:id]).to eq(@item2.id)
+
+      get '/api/v1/items/find_all?name=bitem'
+      by_names = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to be_successful
+      expect(by_names.count).to eq(2)
+      expect(by_names.first[:name]).to eq(@item2.name)
+
+      get "/api/v1/items/find_all?unit_price=#{@item3.unit_price}"
+      by_prices = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to be_successful
+      expect(by_prices.count).to eq(4)
+      expect(by_prices.first[:unit_price]).to eq(@item3.unit_price.to_s)
+      expect(by_prices.last[:unit_price]).to eq(@item4.unit_price.to_s)
+    end
+  end
+  context 'GET /api/v1/items/random' do
+    it 'should find one random merchant' do
+      get '/api/v1/items/random'
+
+      expect(response).to be_successful
+      item = JSON.parse(response.body, symbolize_names: true)
+
+      expect(item).to have_key(:name)
+      expect(item).to have_key(:id)
     end
   end
 end

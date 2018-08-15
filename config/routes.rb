@@ -24,6 +24,8 @@ Rails.application.routes.draw do
       resources :merchants, only: [:show, :index]
       namespace :items do
         resources :find, only: [:index]
+        resources :find_all, only: [:index]
+        resources :random, only: [:index]
       end
       resources :items, only: [:index, :show]
     end
