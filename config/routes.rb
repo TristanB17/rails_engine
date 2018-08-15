@@ -44,12 +44,15 @@ Rails.application.routes.draw do
         resources :random, only: [:index]
         resources :find_all, only: [:index]
         resources :find, only: [:index]
+        get '/:id/invoice', to: 'invoice#index'
       end
       resources :transactions, only: [:show, :index]
       namespace :customers do
         resources :random, only: [:index]
         resources :find_all, only: [:index]
         resources :find, only: [:index]
+        get '/:id/invoices', to: 'invoices#index'
+        get '/:id/transactions', to: 'transactions#index'
       end
       resources :customers, only: [:index, :show]
     end
