@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         get '/:id/customers', to: 'customers#index'
         get '/:id/items', to: 'items#index'
         get '/:id/revenue', to: 'revenue#index'
+        get '/revenue', to: 'date_revenue#index'
       end
       resources :merchants, only: [:show, :index]
       namespace :items do
