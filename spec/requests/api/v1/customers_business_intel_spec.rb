@@ -20,26 +20,16 @@ describe 'Analytics' do
     create(:invoice_item, id:3, item_id:1, invoice_id:3, quantity:3, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
     create(:invoice_item, id:4, item_id:2, invoice_id:4, quantity:3, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
   end
-  context 'visiting /api/v1/merchants/:id/revenue' do
-    it 'can return revenue for a single merchant based on successful transactions' do
-      get '/api/v1/merchants/1/revenue'
+  context 'visiting /api/v1/customers/:id/favorite_merchant' do
+    xit 'can return the merchant where a customer has conducted the most successful transactions' do
+      get '/api/v1/customers/1/favorite_merchant'
 
       expect(response).to be_successful
-      revenue = JSON.parse(response.body, symbolize_names: true)
+      merchant = JSON.parse(response.body, symbolize_names: true)
 
-      expect(revenue).to have_key(:revenue)
-      expect(revenue[:revenue]).to eq('28.0')
-    end
-  end
-  context 'visiting /api/v1/merchants/:id/revenue?date=x' do
-    it 'can return revenue for a single merchant based on successful transactions on a specific invoice date' do
-      get "/api/v1/merchants/1/revenue?date=2012-04-27"
-
-      expect(response).to be_successful
-      revenue = JSON.parse(response.body, symbolize_names: true)
-
-      expect(revenue).to have_key(:revenue)
-      expect(revenue[:revenue]).to eq('28.0')
+      expect(merchant).to have_key(:id)
+      expect(merchant).to have_key(:name)
+      expect(merchant[:id]).to eq(2)
     end
   end
 end
