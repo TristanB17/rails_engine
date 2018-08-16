@@ -31,8 +31,21 @@ describe 'Analytics' do
     create(:invoice_item, id:7, item_id:1, invoice_id:7, quantity:3, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
   end
   context 'GET /api/v1/items/most_revenue?quantity=x' do
-    it 'returns top items by variable quantity' do
+    it 'returns top items by revenue in variable quantity' do
       get '/api/v1/items/most_revenue?quantity=3'
+
+      items = JSON.parse(response.body, symbolize_names: true)
+      item = items.first
+
+      expect(items.count).to eq(3)
+      expect(item).to have_key(:description)
+      expect(item).to have_key(:name)
+      expect(item[:name]).to eq('newitem')
+    end
+  end
+  context 'GET /api/v1/items/most_items?quantity=x' do
+    it 'returns top items by number sold in variable quantity' do
+      get '/api/v1/items/most_items?quantity=3'
 
       items = JSON.parse(response.body, symbolize_names: true)
       item = items.first
