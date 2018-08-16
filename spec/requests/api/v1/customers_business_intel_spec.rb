@@ -21,7 +21,7 @@ describe 'Analytics' do
     create(:invoice_item, id:4, item_id:2, invoice_id:4, quantity:3, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
   end
   context 'visiting /api/v1/customers/:id/favorite_merchant' do
-    xit 'can return the merchant where a customer has conducted the most successful transactions' do
+    it 'can return the merchant where a customer has conducted the most successful transactions' do
       get '/api/v1/customers/1/favorite_merchant'
 
       expect(response).to be_successful
