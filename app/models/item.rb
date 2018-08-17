@@ -32,4 +32,52 @@ class Item < ApplicationRecord
     .order('revenue DESC')
     .limit(quantity)
   end
+
+  def self.find_id(id)
+    find_by_id(id)
+  end
+  def self.find_name(name)
+    find_by_name(name)
+  end
+  def self.find_description(description)
+    find_by_description(description)
+  end
+  def self.find_unit_price(unit_price)
+    find_by_unit_price(unit_price)
+  end
+  def self.find_merchant_id(merchant_id)
+    find_by_merchant_id(merchant_id)
+  end
+  def self.find_created_at(created_at)
+    find_by_created_at(created_at)
+  end
+  def self.find_updated_at(updated_at)
+    find_by_updated_at(updated_at)
+  end
+
+  def self.find_all_id(id)
+    where(id:id)
+  end
+  def self.find_all_name(name)
+    where(name:name)
+  end
+  def self.find_all_description(description)
+    where(description:description)
+  end
+  def self.find_all_unit_price(unit_price)
+    where(unit_price:unit_price)
+  end
+  def self.find_all_merchant_id(merchant_id)
+    where(merchant_id:merchant_id)
+  end
+  def self.find_all_created_at(created_at)
+    where(created_at:created_at)
+  end
+  def self.find_all_updated_at(updated_at)
+    where(updated_at:updated_at)
+  end
+
+  def self.find_random
+    all.sample
+  end
 end
