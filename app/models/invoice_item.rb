@@ -11,47 +11,47 @@ class InvoiceItem < ApplicationRecord
   end
 
   def self.find_id(id)
-    find(id)
+    order(:id).find(id)
   end
   def self.find_invoice_id(invoice_id)
-    find_by_invoice_id(id)
+    order(:id).find_by_invoice_id(id)
   end
   def self.find_item_id(item_id)
-    find_by_item_id(item_id)
+    order(:id).find_by_item_id(item_id)
   end
   def self.find_quantity(quantity)
-    find_by_quantity(quantity)
+    order(:id).find_by_quantity(quantity)
   end
   def self.find_unit_price(unit_price)
-    find_by_unit_price(unit_price)
+    order(:id).find_by_unit_price(unit_price)
   end
   def self.find_created_at(created_at)
-    find_by_created_at(created_at)
+    order(:id).find_by_created_at(created_at)
   end
   def self.find_updated_at(updated_at)
-    find_by_updated_at(updated_at)
+    order(:id).find_by_updated_at(updated_at)
   end
 
   def self.find_all_id(id)
-    where(id: id)
+    order(:id).where(id: id)
   end
   def self.find_all_invoice_id(invoice_id)
-    where(invoice_id: invoice_id)
+    order(:id).where(invoice_id: invoice_id)
   end
   def self.find_all_item_id(item_id)
-    where(item_id: item_id)
+    order(:id).where(item_id: item_id)
   end
   def self.find_all_quantity(quantity)
-    where(quantity: quantity)
+    order(:id).where(quantity: quantity)
   end
   def self.find_all_unit_price(unit_price)
-    where(unit_price: unit_price)
+    order(:id).where(unit_price: unit_price)
   end
   def self.find_all_created_at(created_at)
-    where(created_at: created_at)
+    order(:id).where(created_at: created_at)
   end
   def self.find_all_updated_at(updated_at)
-    where(updated_at: updated_at)
+    order(:id).where(updated_at: updated_at)
   end
 
   def self.find_random
