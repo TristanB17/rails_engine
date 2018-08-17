@@ -97,8 +97,10 @@ describe Merchant, type: :model do
       invoiceitem3 = create(:invoice_item, id:3, item_id:1, invoice_id:3, quantity:3, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
       invoiceitem4 = create(:invoice_item, id:4, item_id:2, invoice_id:4, quantity:3, unit_price:5, created_at:"2012-03-27 14:53:59 UTC", updated_at: "2012-03-27 14:53:59 UTC")
 
-      expect(Merchant.find_revenue(1).revenue).to eq(28.0)
-      expect(Merchant.find_revenue_date(1,'2012-04-27').revenue).to eq(28.0)
+      expect(Merchant.revenue(1).revenue).to eq(28.0)
+      date = Date.parse('2012-04-27')
+      range = date.midnight..(date.midnight + 1.day)
+      expect(Merchant.revenue_with_date(range, 1).revenue).to eq(28.0)
     end
   end
 end
