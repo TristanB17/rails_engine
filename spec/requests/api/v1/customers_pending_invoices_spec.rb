@@ -25,7 +25,7 @@ describe 'Merchant API' do
       get '/api/v1/merchants/1/customers_with_pending_invoices'
 
       pending = JSON.parse(response.body, symbolize_names: true)
-
+      binding.pry
       expect(pending.count).to eq(2)
     end
   end
