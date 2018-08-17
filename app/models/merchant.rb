@@ -41,16 +41,4 @@ class Merchant < ApplicationRecord
   def self.favorite_merchant(id)
     select('merchants.*, count(invoices.id) as invoice_count').joins(:invoices => :transactions).merge(Transaction.success).where(invoices: {customer_id: id}).group(:id).order('invoice_count desc').limit(1).take
   end
-
-  def pending_invoices
-    customers.find_by_sql("SELECT * FROM customers
-      INNER JOIN invoices ON customers.id = invoices.customer_id
-      INNER JOIN transactions ON invoices.id = transactions.id
-      WHERE invoices.merchant_id = #{id}
-      EXCEPT
-        (SELECT * FROM customers
-        INNER JOIN invoices ON customers.id = invoices.customer_id
-        INNER JOIN transactions ON invoices.id = transactions.invoice_id
-        WHERE transactions.result = 'success' AND invoices.merchant_id = #{id})")
-  end
 end
