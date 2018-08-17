@@ -5,4 +5,20 @@ class Invoice < ApplicationRecord
   has_many :invoice_items
   has_many :items, through: :invoice_items
   has_many :transactions
+
+  def find_items
+    items
+  end
+  def find_customer
+    customer
+  end
+  def find_merchant
+    merchant
+  end
+  def find_invoice_items
+    invoice_items
+  end
+  def find_transactions
+    transactions
+  end
 end

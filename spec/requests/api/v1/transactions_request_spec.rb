@@ -67,7 +67,7 @@ describe 'Transactions API' do
       expect(transaction).to have_key(:credit_card_number)
       expect(transaction).to have_key(:result)
       expect(transaction).to_not have_key(:credit_card_expiration_date)
-      expect(transaction[:id]).to eq(3)
+      expect(transaction[:id]).to eq(1)
 
       get '/api/v1/transactions/find?credit_card_number=5658'
 
