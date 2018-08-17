@@ -3,4 +3,16 @@ class Customer < ApplicationRecord
   has_many :invoices
   has_many :merchants, through: :invoices
   has_many :transactions, through: :invoices
+
+  def self.pending_invoices(params)
+    where(id: (Invoice.where(id: Transaction.joins(:invoice)
+                                    .where(result: 'failed').pluck(:invoice_id))
+                                    .where.not(id: Transaction.joins(:invoice)
+                                                    .where(result: 'success')
+                                                    .pluck(:invoice_id))
+                                                    .where(merchant_id: params)
+                                                    .pluck(:customer_id)))
+  end
+
+
 end
